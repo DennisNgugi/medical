@@ -7,26 +7,75 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+import vue from 'vue'
+import VueRouter from 'vue-router'
+import axios from 'axios'
 
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
+Vue.use(VueRouter)
+Vue.use(axios)
 
-// const files = require.context('./', true, /\.vue$/i);
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
+//import Department from './components/department/Department'
+// Reception components
+ import Reception from './components/reception/Reception'
+ // import Queue from './components/reception/Queue'
+ // import Patient from './components/reception/Patient'
+// import Report from './components/department/Report'
+//
+// import CurrentQueue from './components/department/CurrentQueue'
+// import Referral from './components/department/Referral'
+// import Notes from './components/department/Notes'
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+const routes = [
+  {
+        path: '/reception',
+        component: Reception,
+        // children: [{
+        //         path: 'patient',
+        //         component: Patient
+        //     },
+        //      {
+        //         path: 'queue',
+        //         component: Queue
+        //     }]
+    },
+    // {
+    //     path: '/:department',
+    //     component: Department,
+    //     children: [{
+    //         name: 'depQueue',
+    //         path: 'queue',
+    //         component: CurrentQueue
+    //     }, {
+    //         name: "notes",
+    //         path: 'notes/:visitId',
+    //         component: Notes
+    //     }, {
+    //         name: "DepReferral",
+    //         path: 'refer/:visitId',
+    //         component: Referral
+    //     }, {
+    //         path: '/reports',
+    //         component: Report,
+    //         name: 'viewReports'
+    //
+    //     }]
+    // }, {
+    //     path: '*',
+    //     redirect: {
+    //         name: 'depQueue'
+    //     }
+    // }
+    //
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+]
+
+
+const router = new VueRouter({
+    mode: 'history',
+    routes: routes,
+});
 
 const app = new Vue({
     el: '#app',
+    router
 });

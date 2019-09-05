@@ -11,10 +11,15 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+//Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index')->name('department');
+Route::group(['middleware' => ['auth','web']], function () {
+Route::get('department', 'HomeController@department');
+  });
+ Route::middleware(['auth','web'])->get('/{any}', 'HomeController@home')->where('any', '.*');
