@@ -16,6 +16,11 @@ class ReportController extends Controller
     {
         //
     }
+
+    public function search(Request $request){
+      $search = $request->get('q');
+      return Report::where('patient_name','like','%'.$search.'%')->get();
+    }
     public function getReport(){
       $department = request('department');
 

@@ -2309,6 +2309,53 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2325,57 +2372,56 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       addedToQueue: false,
       name: '',
       id: '',
-      search: []
+      search: '',
+      showSearch: false,
+      dummy: []
     };
-  },
-  computed: {
-    filteredPatient: function filteredPatient() {
-      // filter search
-      var search = this.search;
-      return _.filter(this.patients, function (data) {
-        if (_.isNull(search)) {
-          return true;
-        } else {
-          var pr = data.patient_name;
-          return pr.match(search);
-        }
-      }); // return this.products.filter((item) => {
-      //     return item.product_name.match(this.search);
-      // });
-    }
   },
   mounted: function mounted() {
     this.fetchPatient();
     this.fetchDepartment();
   },
   methods: {
-    addPatient: function addPatient() {
+    searchPatient: function searchPatient() {
       var _this = this;
+
+      fetch('patient/search?q=' + this.search).then(function (response) {
+        return response.json();
+      }).then(function (response) {
+        _this.dummy = response;
+        _this.search = '';
+        _this.showSearch = true;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    addPatient: function addPatient() {
+      var _this2 = this;
 
       var uri = '/patient/create';
       axios.post(uri, this.form).then(function (response) {
-        _this.form.patient = '';
-        _this.form.contact = '';
+        _this2.form.patient = '';
+        _this2.form.contact = '';
 
-        _this.fetchPatient();
+        _this2.fetchPatient();
 
         alert('Patient added');
       });
     },
     fetchPatient: function fetchPatient() {
-      var _this2 = this;
+      var _this3 = this;
 
       var uri = '/patient';
       axios.get(uri).then(function (response) {
-        _this2.patients = response.data;
+        _this3.patients = response.data;
       });
     },
     fetchDepartment: function fetchDepartment() {
-      var _this3 = this;
+      var _this4 = this;
 
       var uri = '/getDepartment';
       axios.get(uri).then(function (response) {
-        _this3.department = response.data;
+        _this4.department = response.data;
       });
     },
     checkIn: function checkIn(name, id) {
@@ -2384,7 +2430,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.id = id;
     },
     addToQueue: function addToQueue() {
-      var _this4 = this;
+      var _this5 = this;
 
       var dep = {
         frm: this.frm //fetches department from the form select field
@@ -2398,8 +2444,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         patient_id: patient_id,
         dep: dep
       }).then(function (res) {
-        _this4.showModal = false;
-        _this4.addedToQueue = true;
+        _this5.showModal = false;
+        _this5.addedToQueue = true;
         alert("Patient added to Queue");
       })["catch"](function (e) {
         console.log(e);
@@ -57532,10 +57578,10 @@ var render = function() {
                           },
                           [
                             _c("p", [
-                              _vm._v("\n                    Patient ID : "),
+                              _vm._v("\n                      Patient ID : "),
                               _c("b", [_vm._v(_vm._s(this.id))]),
                               _c("br"),
-                              _vm._v("\n                    Patient Name:"),
+                              _vm._v("\n                      Patient Name:"),
                               _c("b", [_vm._v(_vm._s(this.name))]),
                               _c("br")
                             ]),
@@ -57623,9 +57669,9 @@ var render = function() {
         )
       : _vm._e(),
     _vm._v(" "),
-    _c("div", { staticClass: "row mt-3" }, [
-      _c("div", { staticClass: "col-12" }, [
-        _c("form", { attrs: { action: "index.html", method: "post" } }, [
+    _c("div", { staticClass: "row my-4" }, [
+      _c("div", { staticClass: "col-8" }, [
+        _c("div", { staticClass: "input-group" }, [
           _c("input", {
             directives: [
               {
@@ -57646,53 +57692,142 @@ var render = function() {
                 _vm.search = $event.target.value
               }
             }
-          })
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "card" }, [
-          _c("div", { staticClass: "card-header" }, [_vm._v("Patient List")]),
+          }),
           _vm._v(" "),
-          _c("div", { staticClass: "card-body" }, [
-            _c("table", { staticClass: "table  table-striped" }, [
-              _vm._m(0),
-              _vm._v(" "),
-              _c(
-                "tbody",
-                _vm._l(_vm.filteredPatient, function(p, index) {
-                  return _c("tr", { on: { key: index } }, [
-                    _c("td", [_vm._v(_vm._s(index + 1))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(p.patient_name))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(p.contact))]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-info btn-sm",
-                          attrs: { type: "button" },
-                          on: {
-                            click: function($event) {
-                              return _vm.checkIn(p.patient_name, p.id)
-                            }
-                          }
-                        },
-                        [_vm._v("Check in")]
-                      )
-                    ])
-                  ])
-                }),
-                0
-              )
-            ])
+          _c("div", { staticClass: "input-group-prepend" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-primary btn-sm",
+                attrs: { type: "button", name: "button" },
+                on: { click: _vm.searchPatient }
+              },
+              [_vm._v("Search")]
+            )
           ])
         ])
       ])
-    ])
+    ]),
+    _vm._v(" "),
+    _vm.showSearch == true
+      ? _c("div", [
+          _c("div", { staticClass: "row mt-3" }, [
+            _vm._v("\n>\n                 "),
+            _c("div", { staticClass: "col-12" }, [
+              _c("div", { staticClass: "card" }, [
+                _c("div", { staticClass: "card-header" }, [
+                  _vm._v("Patient List")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "card-body" }, [
+                  _c("table", { staticClass: "table  table-striped" }, [
+                    _vm._m(0),
+                    _vm._v(" "),
+                    _c(
+                      "tbody",
+                      _vm._l(_vm.dummy, function(p, index) {
+                        return _c("tr", { on: { key: index } }, [
+                          _c("td", [_vm._v(_vm._s(index + 1))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(p.patient_name))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(p.contact))]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-info btn-sm",
+                                attrs: { type: "button" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.checkIn(p.patient_name, p.id)
+                                  }
+                                }
+                              },
+                              [_vm._v("Check in")]
+                            )
+                          ])
+                        ])
+                      }),
+                      0
+                    )
+                  ])
+                ])
+              ])
+            ])
+          ])
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.showSearch == false
+      ? _c("div", [
+          _c("div", { staticClass: "row mt-3" }, [
+            _c("div", { staticClass: "col-12" }, [
+              _c("div", { staticClass: "card" }, [
+                _c("div", { staticClass: "card-header" }, [
+                  _vm._v("Patient List")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "card-body" }, [
+                  _c("table", { staticClass: "table  table-striped" }, [
+                    _vm._m(1),
+                    _vm._v(" "),
+                    _c(
+                      "tbody",
+                      _vm._l(_vm.patients, function(p, index) {
+                        return _c("tr", { on: { key: index } }, [
+                          _c("td", [_vm._v(_vm._s(index + 1))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(p.patient_name))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(p.contact))]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-info btn-sm",
+                                attrs: { type: "button" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.checkIn(p.patient_name, p.id)
+                                  }
+                                }
+                              },
+                              [_vm._v("Check in")]
+                            )
+                          ])
+                        ])
+                      }),
+                      0
+                    )
+                  ])
+                ])
+              ])
+            ])
+          ])
+        ])
+      : _vm._e()
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("#")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Patient name")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Contact")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Action")])
+      ])
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

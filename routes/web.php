@@ -37,6 +37,9 @@ Route::get('report/{department}','ReportController@getReport');
 Route::post('referral/create','ReferralController@store');
 Route::get('referral/{department}','ReferralController@index');
 
+//Patient Search
+Route::get('/patient/search','PatientController@search');
+
 
 
 

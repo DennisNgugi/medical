@@ -65,46 +65,93 @@
         </div>
         </transition>
         </div>
-                <div class="row mt-3">
-                   <!-- <MenuBar/> -->
-                   <!-- <router-view></router-view> -->
-                   <div class="col-12">
-                     <form class="" action="index.html" method="post">
-                       <input type="text" class="form-control" v-model="search" placeholder="Search patient...">
-
-                     </form>
-
-                       <div class="card">
-                           <div class="card-header">Patient List</div>
-                           <div class="card-body">
-                             <table class="table  table-striped">
-                               <thead>
-                                 <tr>
-
-                                 <th>#</th>
-                                 <th>Patient name</th>
-                                 <th>Contact</th>
-                                 <th>Action</th>
-
-                               </tr>
-                               </thead>
-                               <tbody>
-                                 <tr v-for="(p,index) in filteredPatient" @key="index">
-                                   <td>{{index+1}}</td>
-                                   <td>{{p.patient_name}}</td>
-                                   <td>{{p.contact}}</td>
-                                   <td>
-                                      <button type="button"  @click="checkIn(p.patient_name,p.id)" class="btn btn-info btn-sm">Check in</button>
-                                      <!-- <button type="button" v-else name="button" class="btn btn-warning btn-sm">Added</button> -->
-                                   </td>
-                                 </tr>
-                               </tbody>
-                             </table>
-                           </div>
-                       </div>
-
-                     </div>
+            <div class="row my-4">
+              <div class="col-8">
+                <div class="input-group">
+                  <input type="text" class="form-control" v-model="search" placeholder="Search patient...">
+                  <div class="input-group-prepend">
+                    <button type="button" class="btn btn-primary btn-sm" @click="searchPatient" name="button">Search</button>
+                  </div>
                 </div>
+
+              </div>
+            </div>
+            <div v-if="showSearch==true">
+              <div class="row mt-3">
+>
+                 <div class="col-12">
+
+
+                     <div class="card">
+                         <div class="card-header">Patient List</div>
+                         <div class="card-body">
+                           <table class="table  table-striped">
+                             <thead>
+                               <tr>
+
+                               <th>#</th>
+                               <th>Patient name</th>
+                               <th>Contact</th>
+                               <th>Action</th>
+
+                             </tr>
+                             </thead>
+                             <tbody>
+                               <tr v-for="(p,index) in dummy" @key="index">
+                                 <td>{{index+1}}</td>
+                                 <td>{{p.patient_name}}</td>
+                                 <td>{{p.contact}}</td>
+                                 <td>
+                                    <button type="button"  @click="checkIn(p.patient_name,p.id)" class="btn btn-info btn-sm">Check in</button>
+                                    <!-- <button type="button" v-else name="button" class="btn btn-warning btn-sm">Added</button> -->
+                                 </td>
+                               </tr>
+                             </tbody>
+                           </table>
+                         </div>
+                     </div>
+
+                   </div>
+              </div>
+            </div>
+            <div v-if="showSearch==false">
+              <div class="row mt-3">
+                 <div class="col-12">
+
+
+                     <div class="card">
+                         <div class="card-header">Patient List</div>
+                         <div class="card-body">
+                           <table class="table  table-striped">
+                             <thead>
+                               <tr>
+
+                               <th>#</th>
+                               <th>Patient name</th>
+                               <th>Contact</th>
+                               <th>Action</th>
+
+                             </tr>
+                             </thead>
+                             <tbody>
+                               <tr v-for="(p,index) in patients" @key="index">
+                                 <td>{{index+1}}</td>
+                                 <td>{{p.patient_name}}</td>
+                                 <td>{{p.contact}}</td>
+                                 <td>
+                                    <button type="button"  @click="checkIn(p.patient_name,p.id)" class="btn btn-info btn-sm">Check in</button>
+                                    <!-- <button type="button" v-else name="button" class="btn btn-warning btn-sm">Added</button> -->
+                                 </td>
+                               </tr>
+                             </tbody>
+                           </table>
+                         </div>
+                     </div>
+
+                   </div>
+              </div>
+            </div>
+
         </div>
 
 
@@ -128,34 +175,30 @@
           addedToQueue:false,
           name:'',
           id:'',
-          search:[]
+          search:'',
+          showSearch:false,
+          dummy:[]
         }
       },
-      computed:{
-        filteredPatient: function() { // filter search
-            var search = this.search;
-            return _.filter(this.patients, (function(data) {
-                if ((_.isNull(search))) {
-                    return true
-                } else {
-                    var pr = data.patient_name;
-                    return pr.match(search);
-                }
-            }));
 
-
-            // return this.products.filter((item) => {
-            //     return item.product_name.match(this.search);
-            // });
-        },
-
-      },
       mounted: function() {
           this.fetchPatient();
           this.fetchDepartment();
       },
 
       methods:{
+      searchPatient:function(){
+          fetch('patient/search?q='+this.search)
+          .then(response => response.json())
+          .then(response =>{
+            this.dummy = response
+            this.search=''
+            this.showSearch = true
+          }).
+          catch(error =>{
+            console.log(error)
+          });
+      },
       addPatient:function(){
      let uri = '/patient/create';
       axios.post(uri, this.form).then((response) => {
