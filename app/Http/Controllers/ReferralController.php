@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Report;
+use App\Referral;
 use Illuminate\Http\Request;
 
-class ReportController extends Controller
+class ReferralController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -36,24 +36,21 @@ class ReportController extends Controller
     public function store(Request $request)
     {
         //
-
-        $report = new Report();
-        $report->patient_id = $request->get('patientID');
-        $report->department = $request->get('department');
-        $report->notes = $request->get('notes');
-        $report->medical_practitioner = auth()->user()->name;
-        $report->save();
-
+        $ref = new Referral();
+        $ref->patient_id = $request->get('patientID');
+        $ref->refer_to = $request->get('referTo');
+        $ref->referred_by = $request->get('referredBy');
+        $ref->save();
 
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Report  $report
+     * @param  \App\Referral  $referral
      * @return \Illuminate\Http\Response
      */
-    public function show(Report $report)
+    public function show(Referral $referral)
     {
         //
     }
@@ -61,10 +58,10 @@ class ReportController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Report  $report
+     * @param  \App\Referral  $referral
      * @return \Illuminate\Http\Response
      */
-    public function edit(Report $report)
+    public function edit(Referral $referral)
     {
         //
     }
@@ -73,10 +70,10 @@ class ReportController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Report  $report
+     * @param  \App\Referral  $referral
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Report $report)
+    public function update(Request $request, Referral $referral)
     {
         //
     }
@@ -84,10 +81,10 @@ class ReportController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Report  $report
+     * @param  \App\Referral  $referral
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Report $report)
+    public function destroy(Referral $referral)
     {
         //
     }

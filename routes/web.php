@@ -29,6 +29,11 @@ Route::get('getDepartment', 'DepartmentController@index');
 //Queue
 Route::post('queue/create', 'QueueController@store');
 Route::get('queue/{department}','QueueController@getDepartmentQueue');
+//Report
+Route::post('notes/create','ReportController@store');
+//Referral
+Route::post('referral/create','ReferralController@store');
+
 
 
   });

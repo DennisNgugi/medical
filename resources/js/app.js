@@ -25,7 +25,7 @@ import Department from './components/department/Department'
 import Report from './components/department/Report'
 //
  import DepartmentQueue from './components/department/DepartmentQueue'
-// import Referral from './components/department/Referral'
+import Referral from './components/department/Referral'
 import DepartmentNotes from './components/department/DepartmentNotes'
 
 const routes = [
@@ -52,11 +52,11 @@ const routes = [
             path: 'notes/:patientID/:patientName',
             component: DepartmentNotes
         },
-        // {
-        //     name: "DepReferral",
-        //     path: 'refer/:visitId',
-        //     component: Referral
-        // },
+        {
+            name: "referral",
+            path: 'myreferrals',
+            component: Referral
+        },
 
       ]
     }, {

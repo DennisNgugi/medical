@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use DB;
 use App\Queue;
+use App\Visit;
 use Illuminate\Http\Request;
 
 class QueueController extends Controller
@@ -68,8 +69,18 @@ class QueueController extends Controller
           $queue->patient_id = $id;
           $queue->department = $k['department'];
           $queue->save();
+
+
+          $visit = new Visit();
+          $visit->patient_id =$id;
+          $visit->status = "session";
+          $visit->save();
+
         }
       }
+
+
+
 
     }
 
