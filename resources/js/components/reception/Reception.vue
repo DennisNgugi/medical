@@ -39,12 +39,18 @@
                     </button>
                 </div>
                 <div class="modal-body" id="modal-body">
-                      <p>Patient name:</p><b></b>
+                  <p>
+                      Patient ID : <b>{{this.id}}</b><br>
+                      Patient Name:<b>{{this.name}}</b><br>
+                  </p>
 
-                      <form class="" action="index.html" method="post">
+
+                      <form  method="post">
                         <div class="form-group">
-                          <select class="form-control" name="">
-                              <option value=""></option>
+                          <label for="">Department</label>
+                          <select class="form-control" v-model="frm.department">
+                            <option value="">Choose department</option>
+                              <option v-for="d in department" v-bind:value="d.department" >{{d.department}}</option>
                           </select>
                         </div>
                       </form>
@@ -83,8 +89,7 @@
                                    <td>{{p.patient_name}}</td>
                                    <td>{{p.contact}}</td>
                                    <td>
-                                     <!-- <router-link :to="{name: 'queue', params: { id: p.id }}" class="btn btn-info btn-sm">Check in</router-link> -->
-                                      <button type="button" @click="checkIn" class="btn btn-info btn-sm">Check in</button>
+                                      <button type="button" @click="checkIn(p.patient_name,p.id)" class="btn btn-info btn-sm">Check in</button>
 
                                    </td>
                                  </tr>
@@ -101,7 +106,6 @@
 </template>
 
 <script>
-  //  import MenuBar from './MenuBar'
     export default {
 
       data(){
@@ -110,12 +114,19 @@
             patient:'',
             contact:''
           },
+          frm:{
+            department:''
+          },
+          department:[],
           patients:[],
           showModal:false,
+          name:'',
+          id:''
         }
       },
       mounted: function() {
           this.fetchPatient();
+          this.fetchDepartment();
       },
 
       methods:{
@@ -135,9 +146,41 @@
             this.patients = response.data;
           })
         },
-        checkIn:function(){
+        fetchDepartment:function(){
+        let uri = '/getDepartment'
+        axios.get(uri).then((response)=>{
+          this.department = response.data;
+        })
+      },
+        checkIn:function(name,id){
           this.showModal = true;
+          this.name = name;
+          this.id = id;
         },
+        addToQueue: function() {
+
+                    let dep = {
+                        frm: this.frm   //fetches department from the form select field
+                    }
+
+                    let patient_id = {
+                        patient: this.id // fetches the patient ID
+                    }
+
+                    axios.post('/queue/create', {
+                        patient_id,
+                        dep,
+
+                    }).then(res => {
+
+                        this.showModal = false;
+                        alert("Patient added to Queue");
+
+
+                    }).catch(e => {
+                        console.log(e);
+                    })
+                },
           },
 
 

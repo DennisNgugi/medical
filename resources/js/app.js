@@ -17,7 +17,6 @@ Vue.use(axios)
 //import Department from './components/department/Department'
 // Reception components
  import Reception from './components/reception/Reception'
- import Queue from './components/reception/Queue'
  // import Patient from './components/reception/Patient'
 // import Report from './components/department/Report'
 //
@@ -29,12 +28,12 @@ const routes = [
   {
         path: '/reception',
         component: Reception,
-        children: [
-             {
-               name:'queue',
-                path: 'queue',
-                component: Queue
-            }]
+        // children: [
+        //      {
+        //        name:'queue',
+        //         path: 'queue',
+        //         component: Queue
+        //     }]
     },
     // {
     //     path: '/:department',

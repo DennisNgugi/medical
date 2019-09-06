@@ -24,6 +24,12 @@ Route::get('department', 'HomeController@department');
 // Patient
 Route::post('patient/create', 'PatientController@store');
 Route::get('patient', 'PatientController@index');
+//Department
+Route::get('getDepartment', 'DepartmentController@index');
+//Queue
+Route::post('queue/create', 'QueueController@store');
+
+
 
   });
  Route::middleware(['auth','web'])->get('/{any}', 'HomeController@home')->where('any', '.*');

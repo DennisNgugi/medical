@@ -36,6 +36,30 @@ class QueueController extends Controller
     public function store(Request $request)
     {
         //
+        $arr = json_decode($request->getContent('patient_id','dep'),true);
+
+        $patient_id = $arr['patient_id'];
+        $dep = $arr['dep'];
+
+        foreach($dep as $k){
+
+            print_r($k);
+
+        }
+        foreach($patient_id as $a){
+
+            print_r($a);
+
+        }
+        foreach($dep as $k){
+          foreach($patient_id as $id){
+          $queue = new Queue();
+          $queue->patient_id = $id;
+          $queue->department = $k['department'];
+          $queue->save();
+        }
+      }
+
     }
 
     /**

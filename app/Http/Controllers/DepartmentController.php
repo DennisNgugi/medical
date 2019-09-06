@@ -7,8 +7,8 @@ use App\Department;
 class DepartmentController extends Controller
 {
     //
-    public function department(){
+    public function index(){
       $dep = Department::all();
-      return view('auth.register',compact('dep'));
+      return response()->json($dep);
     }
 }
