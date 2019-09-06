@@ -89,8 +89,8 @@
                                    <td>{{p.patient_name}}</td>
                                    <td>{{p.contact}}</td>
                                    <td>
-                                      <button type="button" @click="checkIn(p.patient_name,p.id)" class="btn btn-info btn-sm">Check in</button>
-
+                                      <button type="button"  @click="checkIn(p.patient_name,p.id)" class="btn btn-info btn-sm">Check in</button>
+                                      <!-- <button type="button" v-else name="button" class="btn btn-warning btn-sm">Added</button> -->
                                    </td>
                                  </tr>
                                </tbody>
@@ -120,6 +120,7 @@
           department:[],
           patients:[],
           showModal:false,
+          addedToQueue:false,
           name:'',
           id:''
         }
@@ -174,6 +175,7 @@
                     }).then(res => {
 
                         this.showModal = false;
+                        this.addedToQueue = true;
                         alert("Patient added to Queue");
 
 

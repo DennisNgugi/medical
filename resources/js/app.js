@@ -14,13 +14,13 @@ import axios from 'axios'
 Vue.use(VueRouter)
 Vue.use(axios)
 
-//import Department from './components/department/Department'
+import Department from './components/department/Department'
 // Reception components
  import Reception from './components/reception/Reception'
  // import Patient from './components/reception/Patient'
 // import Report from './components/department/Report'
 //
-// import CurrentQueue from './components/department/CurrentQueue'
+ import DepartmentQueue from './components/department/DepartmentQueue'
 // import Referral from './components/department/Referral'
 // import Notes from './components/department/Notes'
 
@@ -28,41 +28,41 @@ const routes = [
   {
         path: '/reception',
         component: Reception,
-        // children: [
-        //      {
-        //        name:'queue',
-        //         path: 'queue',
-        //         component: Queue
-        //     }]
+
     },
-    // {
-    //     path: '/:department',
-    //     component: Department,
-    //     children: [{
-    //         name: 'depQueue',
-    //         path: 'queue',
-    //         component: CurrentQueue
-    //     }, {
-    //         name: "notes",
-    //         path: 'notes/:visitId',
-    //         component: Notes
-    //     }, {
-    //         name: "DepReferral",
-    //         path: 'refer/:visitId',
-    //         component: Referral
-    //     }, {
-    //         path: '/reports',
-    //         component: Report,
-    //         name: 'viewReports'
-    //
-    //     }]
-    // }, {
-    //     path: '*',
-    //     redirect: {
-    //         name: 'depQueue'
-    //     }
-    // }
-    //
+    {
+        path: '/:department',
+        component: Department,
+        children: [{
+            name: 'depQueue',
+            path: 'queue',
+            component: DepartmentQueue
+        },
+        //{
+        //     name: "notes",
+        //     path: 'notes/:visitId',
+        //     component: Notes
+        // },
+        // {
+        //     name: "DepReferral",
+        //     path: 'refer/:visitId',
+        //     component: Referral
+        // },
+        // {
+        //     path: '/reports',
+        //     component: Report,
+        //     name: 'viewReports'
+        //
+        // }
+      ]
+    }, {
+        path: '*',
+        redirect: {
+            name: 'depQueue'
+        }
+    }
+
+
 
 ]
 
