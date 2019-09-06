@@ -7,7 +7,7 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
-import vue from 'vue'
+
 import VueRouter from 'vue-router'
 import axios from 'axios'
 
@@ -17,7 +17,7 @@ Vue.use(axios)
 //import Department from './components/department/Department'
 // Reception components
  import Reception from './components/reception/Reception'
- // import Queue from './components/reception/Queue'
+ import Queue from './components/reception/Queue'
  // import Patient from './components/reception/Patient'
 // import Report from './components/department/Report'
 //
@@ -29,14 +29,12 @@ const routes = [
   {
         path: '/reception',
         component: Reception,
-        // children: [{
-        //         path: 'patient',
-        //         component: Patient
-        //     },
-        //      {
-        //         path: 'queue',
-        //         component: Queue
-        //     }]
+        children: [
+             {
+               name:'queue',
+                path: 'queue',
+                component: Queue
+            }]
     },
     // {
     //     path: '/:department',

@@ -15,6 +15,8 @@ class PatientController extends Controller
     public function index()
     {
         //
+        $p = Patient::orderBy('created_at', 'ASC')->get();
+        return response()->json($p);
     }
 
     /**
@@ -36,6 +38,12 @@ class PatientController extends Controller
     public function store(Request $request)
     {
         //
+        $p = new Patient;
+        $p->patient_name = $request->patient;
+        $p->contact = $request->contact;
+        $p->save();
+
+        //return response()->json('success','Patient added successfully');
     }
 
     /**

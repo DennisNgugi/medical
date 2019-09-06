@@ -21,5 +21,9 @@ Auth::routes();
 Route::get('/', 'HomeController@index')->name('department');
 Route::group(['middleware' => ['auth','web']], function () {
 Route::get('department', 'HomeController@department');
+// Patient
+Route::post('patient/create', 'PatientController@store');
+Route::get('patient', 'PatientController@index');
+
   });
  Route::middleware(['auth','web'])->get('/{any}', 'HomeController@home')->where('any', '.*');

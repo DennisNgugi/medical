@@ -17,8 +17,7 @@ class CreatePatientsTable extends Migration
             $table->bigIncrements('id');
             $table->string('patient_name');
             $table->double('contact');
-            $table->string('gender');
-            $table->date('date_of_birth');
+    
             $table->timestamps();
         });
     }
