@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use DB;
 use App\Referral;
 use Illuminate\Http\Request;
 
@@ -15,7 +15,17 @@ class ReferralController extends Controller
     public function index()
     {
         //
+        $department = request('department');
+
+              $referrals = DB::table('referrals')
+              ->join('patients', 'patients.id', '=', 'referrals.patient_id')
+              ->select('patients.patient_name','patients.contact','referrals.*')
+              ->where('referrals.refer_to','=',$department)
+              ->orderBy('referrals.created_at','ASC')
+              ->get();
+        return response()->json($referrals);
     }
+
 
     /**
      * Show the form for creating a new resource.

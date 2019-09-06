@@ -1843,27 +1843,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      department: [],
+      departments: ['laboratory', 'radiology', //Allowed referrals
+      'optical', 'treatment'],
       patientName: this.$route.params.patientName,
       notes: '',
       showModal: false,
       dep: ''
     };
   },
-  mounted: function mounted() {
-    this.fetchDepartment();
-  },
   methods: {
-    fetchDepartment: function fetchDepartment() {
-      var _this = this;
-
-      var uri = '/getDepartment';
-      axios.get(uri).then(function (response) {
-        _this.department = response.data;
-      });
-    },
     addNotes: function addNotes() {
-      var _this2 = this;
+      var _this = this;
 
       var department = this.$route.params.department; //fetches department from the form route
 
@@ -1877,13 +1867,13 @@ __webpack_require__.r(__webpack_exports__);
         patientID: patientID,
         notes: notes
       }).then(function (response) {
-        _this2.notes = '';
+        _this.notes = '';
       })["catch"](function (error) {
         console.log(error);
       });
     },
     referTo: function referTo() {
-      var _this3 = this;
+      var _this2 = this;
 
       var patientID = this.$route.params.patientID;
       var referredBy = this.$route.params.department;
@@ -1894,8 +1884,8 @@ __webpack_require__.r(__webpack_exports__);
         referredBy: referredBy,
         referTo: referTo
       }).then(function (response) {
-        _this3.dep = '';
-        _this3.showModal = false;
+        _this2.dep = '';
+        _this2.showModal = false;
         alert("Patient referred succesfully");
       })["catch"](function (error) {
         console.log(error);
@@ -2044,6 +2034,80 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/department/Referral.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/department/Referral.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      referrals: [],
+      department: this.$route.params.department
+    };
+  },
+  mounted: function mounted() {
+    this.fetchReferral();
+  },
+  methods: {
+    fetchReferral: function fetchReferral() {
+      var _this = this;
+
+      var department = this.$route.params.department;
+      var uri = "/referral/".concat(department);
+      axios.get(uri).then(function (response) {
+        _this.referrals = response.data;
+      });
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/department/Report.vue?vue&type=script&lang=js&":
 /*!****************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/department/Report.vue?vue&type=script&lang=js& ***!
@@ -2091,12 +2155,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      reports: [],
       department: this.$route.params.department
     };
+  },
+  mounted: function mounted() {
+    this.fetchReport();
+  },
+  methods: {
+    fetchReport: function fetchReport() {
+      var _this = this;
+
+      var department = this.$route.params.department;
+      var uri = "/report/".concat(department);
+      axios.get(uri).then(function (response) {
+        _this.reports = response.data;
+      });
+    }
   }
 });
 
@@ -2226,6 +2304,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2241,8 +2324,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       showModal: false,
       addedToQueue: false,
       name: '',
-      id: ''
+      id: '',
+      search: []
     };
+  },
+  computed: {
+    filteredPatient: function filteredPatient() {
+      // filter search
+      var search = this.search;
+      return _.filter(this.patients, function (data) {
+        if (_.isNull(search)) {
+          return true;
+        } else {
+          var pr = data.patient_name;
+          return pr.match(search);
+        }
+      }); // return this.products.filter((item) => {
+      //     return item.product_name.match(this.search);
+      // });
+    }
   },
   mounted: function mounted() {
     this.fetchPatient();
@@ -56796,12 +56896,10 @@ var render = function() {
                                       _vm._v("Choose department")
                                     ]),
                                     _vm._v(" "),
-                                    _vm._l(_vm.department, function(d) {
-                                      return _c(
-                                        "option",
-                                        { domProps: { value: d.department } },
-                                        [_vm._v(_vm._s(d.department))]
-                                      )
+                                    _vm._l(_vm.departments, function(d) {
+                                      return _c("option", { key: d }, [
+                                        _vm._v(_vm._s(d))
+                                      ])
                                     })
                                   ],
                                   2
@@ -57128,6 +57226,79 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/department/Referral.vue?vue&type=template&id=357ba2df&scoped=true&":
+/*!**********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/department/Referral.vue?vue&type=template&id=357ba2df&scoped=true& ***!
+  \**********************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "row mt-3" }, [
+    _c("div", { staticClass: "col-12" }, [
+      _c("div", { staticClass: "card" }, [
+        _c("div", { staticClass: "card-header" }, [_vm._v("My referrals")]),
+        _vm._v(" "),
+        _c("div", { staticClass: "card-body" }, [
+          _c("table", { staticClass: "table  table-striped" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c(
+              "tbody",
+              _vm._l(_vm.referrals, function(p, index) {
+                return _c("tr", { on: { key: index } }, [
+                  _c("td", [_vm._v(_vm._s(index + 1))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(p.patient_name))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(p.contact))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(p.referred_by))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(_vm._f("date")(p.created_at)))])
+                ])
+              }),
+              0
+            )
+          ])
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("#")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Patient name")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Contact")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Referred by")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Time")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/department/Report.vue?vue&type=template&id=171cc914&":
 /*!********************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/department/Report.vue?vue&type=template&id=171cc914& ***!
@@ -57143,40 +57314,56 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "row mt-3" }, [
+    _c("div", { staticClass: "col-12" }, [
+      _c("div", { staticClass: "card" }, [
+        _c("div", { staticClass: "card-header" }, [
+          _vm._v("Patient Queue (IN ORDER OF TIME)")
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "card-body" }, [
+          _c("table", { staticClass: "table  table-striped" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c(
+              "tbody",
+              _vm._l(_vm.reports, function(p, index) {
+                return _c("tr", { on: { key: index } }, [
+                  _c("td", [_vm._v(_vm._s(index + 1))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(p.patient_name))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(p.department))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(_vm._f("date")(p.created_at)))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(p.medical_practitioner))])
+                ])
+              }),
+              0
+            )
+          ])
+        ])
+      ])
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row mt-3" }, [
-      _c("div", { staticClass: "col-12" }, [
-        _c("div", { staticClass: "card" }, [
-          _c("div", { staticClass: "card-header" }, [
-            _vm._v("Patient Queue (IN ORDER OF TIME)")
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "card-body" }, [
-            _c("table", { staticClass: "table  table-striped" }, [
-              _c("thead", [
-                _c("tr", [
-                  _c("th", [_vm._v("#")]),
-                  _vm._v(" "),
-                  _c("th", [_vm._v("Patient seen")]),
-                  _vm._v(" "),
-                  _c("th", [_vm._v("Department")]),
-                  _vm._v(" "),
-                  _c("th", [_vm._v("Date and Time")]),
-                  _vm._v(" "),
-                  _c("th", [_vm._v("Medical Practitioner")])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("tbody")
-            ])
-          ])
-        ])
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("#")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Patient seen")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Department")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Date and Time")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Medical Practitioner")])
       ])
     ])
   }
@@ -57438,6 +57625,30 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "row mt-3" }, [
       _c("div", { staticClass: "col-12" }, [
+        _c("form", { attrs: { action: "index.html", method: "post" } }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.search,
+                expression: "search"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { type: "text", placeholder: "Search patient..." },
+            domProps: { value: _vm.search },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.search = $event.target.value
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
         _c("div", { staticClass: "card" }, [
           _c("div", { staticClass: "card-header" }, [_vm._v("Patient List")]),
           _vm._v(" "),
@@ -57447,7 +57658,7 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "tbody",
-                _vm._l(_vm.patients, function(p, index) {
+                _vm._l(_vm.filteredPatient, function(p, index) {
                   return _c("tr", { on: { key: index } }, [
                     _c("td", [_vm._v(_vm._s(index + 1))]),
                     _vm._v(" "),
@@ -72554,7 +72765,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_reception_Reception__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/reception/Reception */ "./resources/js/components/reception/Reception.vue");
 /* harmony import */ var _components_department_Report__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/department/Report */ "./resources/js/components/department/Report.vue");
 /* harmony import */ var _components_department_DepartmentQueue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/department/DepartmentQueue */ "./resources/js/components/department/DepartmentQueue.vue");
-/* harmony import */ var _components_department_Referral__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/department/Referral */ "./resources/js/components/department/Referral.vue");
+/* harmony import */ var _components_department_Referral__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/department/Referral */ "./resources/js/components/department/Referral.vue");
 /* harmony import */ var _components_department_DepartmentNotes__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/department/DepartmentNotes */ "./resources/js/components/department/DepartmentNotes.vue");
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -72570,7 +72781,8 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 Vue.use(vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]);
 Vue.use(axios__WEBPACK_IMPORTED_MODULE_1___default.a);
 Vue.filter('date', function (created) {
-  return moment__WEBPACK_IMPORTED_MODULE_2___default()(created).startOf('hour').fromNow();
+  return moment__WEBPACK_IMPORTED_MODULE_2___default()(created).format('MMMM Do YYYY, h:mm:ss a');
+  ;
 });
  // Reception components
 
@@ -72600,9 +72812,9 @@ var routes = [{
     path: 'notes/:patientID/:patientName',
     component: _components_department_DepartmentNotes__WEBPACK_IMPORTED_MODULE_8__["default"]
   }, {
-    name: "referral",
+    name: "showReferrals",
     path: 'myreferrals',
-    component: _components_department_Referral__WEBPACK_IMPORTED_MODULE_9__["default"]
+    component: _components_department_Referral__WEBPACK_IMPORTED_MODULE_7__["default"]
   }]
 }, {
   path: '*',
@@ -72982,26 +73194,63 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-var render, staticRenderFns
-var script = {}
+/* harmony import */ var _Referral_vue_vue_type_template_id_357ba2df_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Referral.vue?vue&type=template&id=357ba2df&scoped=true& */ "./resources/js/components/department/Referral.vue?vue&type=template&id=357ba2df&scoped=true&");
+/* harmony import */ var _Referral_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Referral.vue?vue&type=script&lang=js& */ "./resources/js/components/department/Referral.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
 
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_0__["default"])(
-  script,
-  render,
-  staticRenderFns,
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Referral_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Referral_vue_vue_type_template_id_357ba2df_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Referral_vue_vue_type_template_id_357ba2df_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
-  null,
+  "357ba2df",
   null
   
 )
 
+/* hot reload */
+if (false) { var api; }
 component.options.__file = "resources/js/components/department/Referral.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/department/Referral.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/components/department/Referral.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Referral_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./Referral.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/department/Referral.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Referral_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/department/Referral.vue?vue&type=template&id=357ba2df&scoped=true&":
+/*!****************************************************************************************************!*\
+  !*** ./resources/js/components/department/Referral.vue?vue&type=template&id=357ba2df&scoped=true& ***!
+  \****************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Referral_vue_vue_type_template_id_357ba2df_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./Referral.vue?vue&type=template&id=357ba2df&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/department/Referral.vue?vue&type=template&id=357ba2df&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Referral_vue_vue_type_template_id_357ba2df_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Referral_vue_vue_type_template_id_357ba2df_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
 
 /***/ }),
 

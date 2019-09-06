@@ -16,7 +16,7 @@ import moment from 'moment';
 Vue.use(VueRouter)
 Vue.use(axios)
 Vue.filter('date', function (created) {
-  return moment(created).startOf('hour').fromNow();
+  return moment(created).format('MMMM Do YYYY, h:mm:ss a');;
 })
 import Department from './components/department/Department'
 // Reception components
@@ -53,7 +53,7 @@ const routes = [
             component: DepartmentNotes
         },
         {
-            name: "referral",
+            name: "showReferrals",
             path: 'myreferrals',
             component: Referral
         },

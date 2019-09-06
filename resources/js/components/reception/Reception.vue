@@ -69,6 +69,11 @@
                    <!-- <MenuBar/> -->
                    <!-- <router-view></router-view> -->
                    <div class="col-12">
+                     <form class="" action="index.html" method="post">
+                       <input type="text" class="form-control" v-model="search" placeholder="Search patient...">
+
+                     </form>
+
                        <div class="card">
                            <div class="card-header">Patient List</div>
                            <div class="card-body">
@@ -84,7 +89,7 @@
                                </tr>
                                </thead>
                                <tbody>
-                                 <tr v-for="(p,index) in patients" @key="index">
+                                 <tr v-for="(p,index) in filteredPatient" @key="index">
                                    <td>{{index+1}}</td>
                                    <td>{{p.patient_name}}</td>
                                    <td>{{p.contact}}</td>
@@ -122,8 +127,28 @@
           showModal:false,
           addedToQueue:false,
           name:'',
-          id:''
+          id:'',
+          search:[]
         }
+      },
+      computed:{
+        filteredPatient: function() { // filter search
+            var search = this.search;
+            return _.filter(this.patients, (function(data) {
+                if ((_.isNull(search))) {
+                    return true
+                } else {
+                    var pr = data.patient_name;
+                    return pr.match(search);
+                }
+            }));
+
+
+            // return this.products.filter((item) => {
+            //     return item.product_name.match(this.search);
+            // });
+        },
+
       },
       mounted: function() {
           this.fetchPatient();

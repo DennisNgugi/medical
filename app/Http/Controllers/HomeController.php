@@ -14,8 +14,9 @@ class HomeController extends Controller
 
      public function home()
      {
-         return view('home');
+         return view('medicalcenter');
      }
+
     public function __construct()
     {
         $this->middleware('auth');

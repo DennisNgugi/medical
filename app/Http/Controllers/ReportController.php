@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use DB;
 use App\Report;
 use Illuminate\Http\Request;
 
@@ -16,7 +16,17 @@ class ReportController extends Controller
     {
         //
     }
+    public function getReport(){
+      $department = request('department');
 
+            $report = DB::table('reports')
+            ->join('patients', 'patients.id', '=', 'reports.patient_id')
+            ->select('patients.patient_name','reports.*')
+            ->where('reports.department','=',$department)
+            ->orderBy('reports.created_at','ASC')
+            ->get();
+      return response()->json($report);
+    }
     /**
      * Show the form for creating a new resource.
      *

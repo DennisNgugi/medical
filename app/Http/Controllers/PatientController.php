@@ -18,7 +18,10 @@ class PatientController extends Controller
         $p = Patient::orderBy('created_at', 'ASC')->get();
         return response()->json($p);
     }
-
+    public function search(Request $request){
+      $search = $request->get('q');
+      return Patient::where('patient_name','like','%'.$search.'%')->get();
+    }
     /**
      * Show the form for creating a new resource.
      *

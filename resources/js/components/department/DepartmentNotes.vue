@@ -22,7 +22,7 @@
                        <label for="">Department</label>
                        <select class="form-control" v-model="dep">
                          <option value="">Choose department</option>
-                           <option v-for="d in department" v-bind:value="d.department" >{{d.department}}</option>
+                         <option :key="d" v-for="d in departments">{{d}}</option>
                        </select>
                      </div>
                    </form>
@@ -64,7 +64,13 @@
 export default {
   data(){
     return{
-      department:[],
+      departments:[
+        'laboratory',
+        'radiology',    //Allowed referrals
+        'optical',
+        'treatment'
+
+      ],
       patientName:this.$route.params.patientName,
       notes:'',
       showModal:false,
@@ -72,16 +78,9 @@ export default {
     }
 
   },
-  mounted:function(){
-   this.fetchDepartment();
-  },
+
   methods:{
-    fetchDepartment:function(){
-    let uri = '/getDepartment'
-    axios.get(uri).then((response)=>{
-      this.department = response.data;
-    })
-  },
+
     addNotes:function(){
 
       let department = this.$route.params.department   //fetches department from the form route
