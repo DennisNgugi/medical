@@ -10,19 +10,23 @@ window.Vue = require('vue');
 
 import VueRouter from 'vue-router'
 import axios from 'axios'
+import moment from 'moment';
+
 
 Vue.use(VueRouter)
 Vue.use(axios)
-
+Vue.filter('date', function (created) {
+  return moment(created).startOf('hour').fromNow();
+})
 import Department from './components/department/Department'
 // Reception components
  import Reception from './components/reception/Reception'
  // import Patient from './components/reception/Patient'
-// import Report from './components/department/Report'
+import Report from './components/department/Report'
 //
  import DepartmentQueue from './components/department/DepartmentQueue'
 // import Referral from './components/department/Referral'
-// import Notes from './components/department/Notes'
+import DepartmentNotes from './components/department/DepartmentNotes'
 
 const routes = [
   {
@@ -38,22 +42,22 @@ const routes = [
             path: 'queue',
             component: DepartmentQueue
         },
-        //{
-        //     name: "notes",
-        //     path: 'notes/:visitId',
-        //     component: Notes
-        // },
+        {
+            name: 'showReports',
+            path: 'reports',
+            component: Report
+        },
+        {
+            name: 'notes',
+            path: 'notes/:patientID/:patientName',
+            component: DepartmentNotes
+        },
         // {
         //     name: "DepReferral",
         //     path: 'refer/:visitId',
         //     component: Referral
         // },
-        // {
-        //     path: '/reports',
-        //     component: Report,
-        //     name: 'viewReports'
-        //
-        // }
+
       ]
     }, {
         path: '*',
@@ -61,9 +65,6 @@ const routes = [
             name: 'depQueue'
         }
     }
-
-
-
 ]
 
 

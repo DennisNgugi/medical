@@ -9,7 +9,7 @@
         <div class="sidebar-heading">Dashboard</div>
         <div class="list-group list-group-flush">
           <router-link :to="{ name: 'depQueue', params:'department' }" class="list-group-item list-group-item-action bg-light">Queue</router-link>
-          <router-link :to="{ name: 'reports' }" class="list-group-item list-group-item-action bg-light">Report</router-link>
+          <router-link :to="{ name: 'showReports' }" class="list-group-item list-group-item-action bg-light">Report</router-link>
 
         </div>
       </div>

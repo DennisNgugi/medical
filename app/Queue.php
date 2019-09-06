@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Queue extends Model
 {
     //
-    public function patient()
+    public function patients()
     {
         return $this->belongsTo(Patient::class);
     }

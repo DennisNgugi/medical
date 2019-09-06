@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use DB;
 use App\Queue;
 use Illuminate\Http\Request;
 
@@ -17,6 +17,17 @@ class QueueController extends Controller
         //
     }
 
+    public function getDepartmentQueue(){
+      $department = request('department');
+
+            $patientQueue = DB::table('queues')
+            ->join('patients', 'patients.id', '=', 'queues.patient_id')
+            ->select('patients.patient_name','patients.contact','queues.*')
+            ->where('queues.department','=',$department)
+            ->orderBy('queues.created_at','ASC')
+            ->get();
+      return response()->json($patientQueue);
+    }
     /**
      * Show the form for creating a new resource.
      *

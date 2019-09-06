@@ -14,4 +14,7 @@ class Patient extends Model
     public function reports(){
        return $this->hasMany(Report::class);
     }
+    public function queues(){
+       return $this->hasMany(Queue::class);
+    }
 }
