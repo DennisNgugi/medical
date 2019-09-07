@@ -39,6 +39,9 @@ Route::get('referral/{department}','ReferralController@index');
 
 //Patient Search
 Route::get('/patient/search','PatientController@search');
+// Report Search
+Route::get('/report/search','ReportController@search');
+
 
 
 

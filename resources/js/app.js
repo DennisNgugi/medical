@@ -18,6 +18,7 @@ Vue.use(axios)
 Vue.filter('date', function (created) {
   return moment(created).format('MMMM Do YYYY, h:mm:ss a');;
 })
+
 import Department from './components/department/Department'
 // Reception components
  import Reception from './components/reception/Reception'

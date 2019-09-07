@@ -18,10 +18,7 @@ class ReportController extends Controller
         //
     }
 
-    public function search(Request $request){
-      $search = $request->get('q');
-      return Report::where('patient_name','like','%'.$search.'%')->get();
-    }
+
     public function getReport(){
       $department = request('department');
 
@@ -32,6 +29,17 @@ class ReportController extends Controller
             ->orderBy('reports.created_at','ASC')
             ->get();
       return response()->json($report);
+    }
+    public function search(Request $request){
+      $search = $request->get('q');
+      $report =  DB::table('reports')
+     ->join('patients', 'patients.id', '=', 'reports.patient_id')
+     ->select('patients.patient_name','reports.*')
+     ->where('reports.department','=',$department)
+     ->orderBy('reports.created_at','ASC')
+     ->where('patients.patient_name','like','%'.$search.'%')
+     ->get();
+     return response()->json($report);
     }
 
     /**

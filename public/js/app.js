@@ -1868,6 +1868,7 @@ __webpack_require__.r(__webpack_exports__);
         notes: notes
       }).then(function (response) {
         _this.notes = '';
+        alert("Notes added succesfully");
       })["catch"](function (error) {
         console.log(error);
       });
@@ -2155,24 +2156,93 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       reports: [],
-      department: this.$route.params.department
+      department: this.$route.params.department,
+      search: '',
+      showSearch: false,
+      dummy: []
     };
   },
   mounted: function mounted() {
     this.fetchReport();
   },
   methods: {
-    fetchReport: function fetchReport() {
+    searchReport: function searchReport() {
       var _this = this;
+
+      fetch('report/search?q=' + this.search).then(function (response) {
+        return response.json();
+      }).then(function (response) {
+        _this.dummy = response;
+        _this.search = '';
+        _this.showSearch = true;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    fetchReport: function fetchReport() {
+      var _this2 = this;
 
       var department = this.$route.params.department;
       var uri = "/report/".concat(department);
       axios.get(uri).then(function (response) {
-        _this.reports = response.data;
+        _this2.reports = response.data;
       });
     }
   }
@@ -57360,41 +57430,147 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "row mt-3" }, [
-    _c("div", { staticClass: "col-12" }, [
-      _c("div", { staticClass: "card" }, [
-        _c("div", { staticClass: "card-header" }, [
-          _vm._v("Patient Queue (IN ORDER OF TIME)")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "card-body" }, [
-          _c("table", { staticClass: "table  table-striped" }, [
-            _vm._m(0),
-            _vm._v(" "),
+  return _c("div", [
+    _c("div", { staticClass: "row my-4" }, [
+      _c("div", { staticClass: "col-8" }, [
+        _c("div", { staticClass: "input-group" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.search,
+                expression: "search"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { type: "text", placeholder: "Search patient..." },
+            domProps: { value: _vm.search },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.search = $event.target.value
+              }
+            }
+          }),
+          _vm._v(" "),
+          _c("div", { staticClass: "input-group-prepend" }, [
             _c(
-              "tbody",
-              _vm._l(_vm.reports, function(p, index) {
-                return _c("tr", { on: { key: index } }, [
-                  _c("td", [_vm._v(_vm._s(index + 1))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(p.patient_name))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(p.department))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(_vm._f("date")(p.created_at)))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(p.medical_practitioner))])
-                ])
-              }),
-              0
+              "button",
+              {
+                staticClass: "btn btn-primary btn-sm",
+                attrs: { type: "button", name: "button" },
+                on: { click: _vm.searchReport }
+              },
+              [_vm._v("Search")]
             )
           ])
         ])
       ])
-    ])
+    ]),
+    _vm._v(" "),
+    _vm.showSearch == true
+      ? _c("div", [
+          _c("div", { staticClass: "row mt-3" }, [
+            _c("div", { staticClass: "col-12" }, [
+              _c("div", { staticClass: "card" }, [
+                _c("div", { staticClass: "card-header" }, [
+                  _vm._v("Patient Queue (IN ORDER OF TIME)")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "card-body" }, [
+                  _c("table", { staticClass: "table  table-striped" }, [
+                    _vm._m(0),
+                    _vm._v(" "),
+                    _c(
+                      "tbody",
+                      _vm._l(_vm.dummy, function(p, index) {
+                        return _c("tr", { on: { key: index } }, [
+                          _c("td", [_vm._v(_vm._s(index + 1))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(p.patient_name))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(p.department))]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _vm._v(_vm._s(_vm._f("date")(p.created_at)))
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(p.medical_practitioner))])
+                        ])
+                      }),
+                      0
+                    )
+                  ])
+                ])
+              ])
+            ])
+          ])
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.showSearch == false
+      ? _c("div", [
+          _c("div", { staticClass: "row mt-3" }, [
+            _c("div", { staticClass: "col-12" }, [
+              _c("div", { staticClass: "card" }, [
+                _c("div", { staticClass: "card-header" }, [
+                  _vm._v("Patient Queue (IN ORDER OF TIME)")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "card-body" }, [
+                  _c("table", { staticClass: "table  table-striped" }, [
+                    _vm._m(1),
+                    _vm._v(" "),
+                    _c(
+                      "tbody",
+                      _vm._l(_vm.reports, function(p, index) {
+                        return _c("tr", { on: { key: index } }, [
+                          _c("td", [_vm._v(_vm._s(index + 1))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(p.patient_name))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(p.department))]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _vm._v(_vm._s(_vm._f("date")(p.created_at)))
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(p.medical_practitioner))])
+                        ])
+                      }),
+                      0
+                    )
+                  ])
+                ])
+              ])
+            ])
+          ])
+        ])
+      : _vm._e()
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("#")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Patient seen")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Department")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Date and Time")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Medical Practitioner")])
+      ])
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

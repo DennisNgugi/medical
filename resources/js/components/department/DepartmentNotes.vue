@@ -97,6 +97,7 @@ export default {
           notes
         }).then((response)=>{
           this.notes = ''
+          alert("Notes added succesfully")
       }).catch(error => {
           console.log(error);
       })

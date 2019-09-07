@@ -13,37 +13,37 @@ class UsersTableSeeder extends Seeder
     {
         //
         User::create([
-            'name' => 'reception',
+            'name' => 'jane',
             'email' => 'reception@mail.com',
             'department' => 'reception',
             'password' => Hash::make('reception')
         ]);
         User::create([
-            'name' => 'radiology',
+            'name' => 'daniel',
             'email' => 'radiology@mail.com',
             'department' => 'radiology',
             'password' => Hash::make('radiology')
         ]);
         User::create([
-            'name' => 'treatment',
+            'name' => 'joshua',
             'email' => 'treatment@mail.com',
             'department' => 'treatment',
             'password' => Hash::make('treatment')
         ]);
         User::create([
-            'name' => 'optical',
+            'name' => 'dennis',
             'email' => 'optical@mail.com',
             'department' => 'optical',
             'password' => Hash::make('optical')
         ]);
         User::create([
-            'name' => 'nursing',
+            'name' => 'lucy',
             'email' => 'nursing@mail.com',
             'department' => 'nursing',
             'password' => Hash::make('nursing')
         ]);
         User::create([
-            'name' => 'laboratory',
+            'name' => 'james',
             'email' => 'laboratory@mail.com',
             'department' => 'laboratory',
             'password' => Hash::make('laboratory')
