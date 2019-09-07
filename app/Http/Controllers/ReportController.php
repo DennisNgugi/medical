@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use DB;
 use App\Report;
+use PDF;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller
@@ -32,6 +33,7 @@ class ReportController extends Controller
             ->get();
       return response()->json($report);
     }
+
     /**
      * Show the form for creating a new resource.
      *

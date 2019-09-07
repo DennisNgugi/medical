@@ -42,6 +42,5 @@ Route::get('/patient/search','PatientController@search');
 
 
 
-
   });
  Route::middleware(['auth','web'])->get('/{any}', 'HomeController@home')->where('any', '.*');

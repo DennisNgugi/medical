@@ -2155,6 +2155,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -57368,6 +57369,15 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "card-body" }, [
+          _c(
+            "a",
+            {
+              staticClass: "btn btn-primary btn-sm",
+              attrs: { href: "/generate-pdf" }
+            },
+            [_vm._v("Download PDF")]
+          ),
+          _vm._v(" "),
           _c("table", { staticClass: "table  table-striped" }, [
             _vm._m(0),
             _vm._v(" "),
