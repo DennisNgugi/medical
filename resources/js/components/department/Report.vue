@@ -6,7 +6,6 @@
          <div class="card">
              <div class="card-header">Patient Queue (IN ORDER OF TIME)</div>
              <div class="card-body">
-               <a href="/generate-pdf" class="btn btn-primary btn-sm">Download PDF</a>
                <table class="table  table-striped">
                  <thead>
                    <tr>
